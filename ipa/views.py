@@ -90,21 +90,6 @@ class FindParkingViewset(viewsets.ViewSet):
     #Here we'll incorporate the algorithm to find distance and calculate it for us.
     #This will also serve as the directions page
     def list(self, request):
-        # queryset = Parkings.objects.all()
-        
-        # serializer = ParkingSerializer(queryset, many = True)
-        # if not serializer.data:
-        #     return Response(
-        #         {'details': 'No parkings yet', 'code': 200},
-        #         status= status.HTTP_200_OK
-        #     )
-         
-        # return Response(
-        #     {'details': serializer.data, 'code': 200},
-        #     status= status.HTTP_200_OK
-        # )   
-        queryset = Parkings.objects.all()
-        print(queryset)
         # this function will take in the present location of the user
         result = getParkings()
         return Response(
