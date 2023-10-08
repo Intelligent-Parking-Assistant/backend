@@ -12,7 +12,7 @@ for parking in parkings:
     latitude.append(parking.latitude)
     longitude.append(parking.longitude)
     
-
+#takes parameter of user's location
 def getParkings():
     df = pd.DataFrame({
         # 'location': '''['Norean', 'OKC', 'New York', 'Bayonne']''',
@@ -24,7 +24,7 @@ def getParkings():
         'longitude': longitude
     })
 
-    jersey_city_lat_lon = (40.94, -74.05)
-    df['distance'] = df.apply(lambda row: haversine((row['latitude'], row['longitude']), jersey_city_lat_lon), axis=1)
+    users_lat_lon = (40.94, -74.05)
+    df['distance'] = df.apply(lambda row: haversine((row['latitude'], row['longitude']), users_lat_lon), axis=1)
     filtered_df = df[df['distance'] <= 1000]
     return filtered_df
