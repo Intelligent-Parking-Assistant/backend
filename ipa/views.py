@@ -4,7 +4,7 @@ from users.models import CustomUser, UserProfile
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import ParkingSerializer, VisitsSerializer
-
+from .utils import getParkings
 #Admin CRUD
 class ParkingViewset(viewsets.ViewSet):
     def list(self, request):
@@ -90,19 +90,28 @@ class FindParkingViewset(viewsets.ViewSet):
     #Here we'll incorporate the algorithm to find distance and calculate it for us.
     #This will also serve as the directions page
     def list(self, request):
-        queryset = Parkings.objects.all()
+        # queryset = Parkings.objects.all()
         
-        serializer = ParkingSerializer(queryset, many = True)
-        if not serializer.data:
-            return Response(
-                {'details': 'No parkings yet', 'code': 200},
+        # serializer = ParkingSerializer(queryset, many = True)
+        # if not serializer.data:
+        #     return Response(
+        #         {'details': 'No parkings yet', 'code': 200},
+        #         status= status.HTTP_200_OK
+        #     )
+         
+        # return Response(
+        #     {'details': serializer.data, 'code': 200},
+        #     status= status.HTTP_200_OK
+        # )   
+        queryset = Parkings.objects.all()
+        print(queryset)
+        # this function will take in the present location of the user
+        result = getParkings()
+        return Response(
+                {'details': result, 'code': 200},
                 status= status.HTTP_200_OK
             )
-         
-        return Response(
-            {'details': serializer.data, 'code': 200},
-            status= status.HTTP_200_OK
-        )   
+        
     
     def create(self, request):
         pass
