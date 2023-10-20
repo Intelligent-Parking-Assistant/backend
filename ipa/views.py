@@ -20,7 +20,6 @@ def directions(request):
             {'details': 'Could not find any parkings around, expand search', 'code': 400},
             status=status.HTTP_400_BAD_REQUEST
         )     
-    print(parkings)
     return Response(
         {'details': parkings, 'code': 200},
         status=status.HTTP_200_OK
@@ -28,7 +27,7 @@ def directions(request):
 
 @api_view(['GET'])
 def search_parking(request):
-    context = {}
+    context = []
     #values to be passed to getParkings Function
     # latitude = request.data.get('latitude')
     # longitude = request.data.get('longitude')
@@ -36,7 +35,12 @@ def search_parking(request):
     parkings = getParkings()
     frees = find_free_parkings(parkings)
     
-    context['locations'] = frees
+    #getting the location object to pass to the frontend
+    for free in frees:
+        free_parking = Parkings.objects.filter(location = free)
+        serializer = ParkingSerializer(free_parking, many = True)
+        context.append(serializer.data)
+    
     return Response(
         {'details': context, 'code': 200},
         status=status.HTTP_200_OK

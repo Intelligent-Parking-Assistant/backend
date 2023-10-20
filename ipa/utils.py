@@ -29,12 +29,6 @@ def getParkings():
 #this function takes in parkings within the radius
 #then gets the images of the respective locations
 def find_free_parkings(parkings):
-    # latitudes = []
-    # longitudes = []
-    # #organizing information
-    # latitudes = parkings.latitude
-    # locations = parkings.location
-
     
     locations = parkings.location
     latitude = parkings.latitude
@@ -45,10 +39,10 @@ def find_free_parkings(parkings):
         #Getting images for each cordinate
         url = 'https://maps.googleapis.com/maps/api/staticmap?center={lat},{long}&zoom=20&size=400x400&maptype=satellite&key=AIzaSyCfPrg8MdEm0nXZkWNQqSFSUgXxVyUVYFc'
         img = requests.get(url)
-        # context['img'] = img.content
+        # image = img.content
         #feeding the free location to be returned by the function
         free.append(location)
-        print(img.content)
+        # print(img.content)
     
     #passing the images to the machine learning model
     
