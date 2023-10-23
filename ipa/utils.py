@@ -1,6 +1,7 @@
 import pandas as pd
 from haversine import haversine
 from .models import Parkings
+import requests
 
 parkings = Parkings.objects.all()
 locations = []
@@ -14,11 +15,7 @@ for parking in parkings:
     
 #takes parameter of user's location
 def getParkings():
-    df = pd.DataFrame({
-        # 'location': '''['Norean', 'OKC', 'New York', 'Bayonne']''',
-        # 'latitude':  '''[35.221, 35.463, 41.112, 40.66]''',
-        # 'longitude':  '''[-97.481, -97.622, -74.1083, -74.106]'''
-        
+    df = pd.DataFrame({ 
         'location': locations,
         'latitude': latitude,
         'longitude': longitude
@@ -28,3 +25,25 @@ def getParkings():
     df['distance'] = df.apply(lambda row: haversine((row['latitude'], row['longitude']), users_lat_lon), axis=1)
     filtered_df = df[df['distance'] <= 1000]
     return filtered_df
+
+#this function takes in parkings within the radius
+#then gets the images of the respective locations
+def find_free_parkings(parkings):
+    
+    locations = parkings.location
+    latitude = parkings.latitude
+    longitude = parkings.longitude
+    free = []
+    #get the locations with free parking
+    for location, lat, long in zip(locations, latitude, longitude):
+        #Getting images for each cordinate
+        url = 'https://maps.googleapis.com/maps/api/staticmap?center={lat},{long}&zoom=20&size=400x400&maptype=satellite&key=AIzaSyCfPrg8MdEm0nXZkWNQqSFSUgXxVyUVYFc'
+        img = requests.get(url)
+        # image = img.content
+        #feeding the free location to be returned by the function
+        free.append(location)
+        # print(img.content)
+    
+    #passing the images to the machine learning model
+    
+    return free
