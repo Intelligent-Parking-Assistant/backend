@@ -13,7 +13,7 @@ You should then be all set
 4. Search: ```localhost:8000/search/```
 5. Visits: ```localhost:8000/visits/<id>/```
 
-#Postgress Setup
+# Postgress Setup
 1. Download pgAdmin: ```https://www.postgresql.org/download/```
 2. Follow the wizard setup and take note of the password and username
 3. In the root directory of the project create an .env file
