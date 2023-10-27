@@ -21,6 +21,7 @@ def getParkings():
         'longitude': longitude
     })
 
+    #user's location
     users_lat_lon = (40.94, -74.05)
     df['distance'] = df.apply(lambda row: haversine((row['latitude'], row['longitude']), users_lat_lon), axis=1)
     filtered_df = df[df['distance'] <= 1000]

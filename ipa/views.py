@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from .serializers import ParkingSerializer, VisitsSerializer
 from .utils import getParkings, find_free_parkings
 from rest_framework.decorators import api_view
+import json
 
 #This function serves the directions page to give back the 
 @api_view(['GET'])
@@ -14,6 +15,8 @@ def directions(request):
     # latitude = request.data.get('latitude')
     # longitude = request.data.get('longitude')
     # results = getParkings(latitude, longitude)
+    data = json.loads(request.body)
+    print(data["lat"])
     parkings = getParkings()
     if parkings is None:
         return Response(
