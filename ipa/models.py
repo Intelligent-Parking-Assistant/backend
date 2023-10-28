@@ -17,3 +17,10 @@ class Visits(models.Model):
     
     def __str__(self):
         return self.parking.location
+    
+class Free(models.Model):
+    parking = models.ForeignKey(Parkings, on_delete=CASCADE)
+    free = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.parking.location
