@@ -12,11 +12,19 @@ import json
 #This function serves the directions page to give back the 
 @api_view(['GET'])
 def directions(request):
-    # latitude = request.data.get('latitude')
-    # longitude = request.data.get('longitude')
-    # results = getParkings(latitude, longitude)
-    data = json.loads(request.body)
-    print(data["lat"])
+    
+    try:
+        decoded_data = json.loads(request.body)
+        # Use the decoded data here
+        print(decoded_data)
+    except json.JSONDecodeError as e:
+        print(f"JSONDecodeError: {e.msg} at position {e.pos}")
+        
+    # data = json.loads(request.body)
+    # lat = data["lat"]
+    # long = data["long"]
+    # parkings = getParkings(lat, long)
+    # print(data["lat"])
     parkings = getParkings()
     if parkings is None:
         return Response(

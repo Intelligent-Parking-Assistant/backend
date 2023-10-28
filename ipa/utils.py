@@ -1,6 +1,6 @@
 import pandas as pd
 from haversine import haversine
-from .models import Parkings
+from .models import Parkings, Free
 import requests
 
 parkings = Parkings.objects.all()
@@ -23,6 +23,7 @@ def getParkings():
 
     #user's location
     users_lat_lon = (40.94, -74.05)
+    # users_lat_lon = (lat, long)
     df['distance'] = df.apply(lambda row: haversine((row['latitude'], row['longitude']), users_lat_lon), axis=1)
     filtered_df = df[df['distance'] <= 1000]
     return filtered_df
@@ -35,6 +36,15 @@ def find_free_parkings(parkings):
     latitude = parkings.latitude
     longitude = parkings.longitude
     free = []
+    
+    #Fetch from parking lots
+    for location in locations:
+        p_kings = Parkings.objects.get(location = location)
+        from_db = Free.objects.get(parking = p_kings.id)
+        
+        if from_db.free > 0:
+            free.append(from_db)
+    
     #get the locations with free parking
     for location, lat, long in zip(locations, latitude, longitude):
         #Getting images for each cordinate
