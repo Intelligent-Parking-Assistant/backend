@@ -19,12 +19,7 @@ def directions(request):
         print(decoded_data)
     except json.JSONDecodeError as e:
         print(f"JSONDecodeError: {e.msg} at position {e.pos}")
-        
-    # data = json.loads(request.body)
-    # lat = data["lat"]
-    # long = data["long"]
-    # parkings = getParkings(lat, long)
-    # print(data["lat"])
+
     parkings = getParkings()
     if parkings is None:
         return Response(
@@ -39,10 +34,6 @@ def directions(request):
 @api_view(['GET'])
 def search_parking(request):
     context = []
-    #values to be passed to getParkings Function
-    # latitude = request.data.get('latitude')
-    # longitude = request.data.get('longitude')
-    # results = getParkings(latitude, longitude)
     parkings = getParkings()
     frees = find_free_parkings(parkings)
     
